@@ -1,0 +1,29 @@
+.sidebarContainer {
+  width: 100%;
+  height: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid white;
+  color: white;
+}
+
+@media only screen and (min-width: 1000px) {
+  .sidebarContainer {
+    flex: 0.5;
+  }
+}
+
+.tabTitles {
+  display: flex;
+  width: 100%;
+  padding: 20px;
+}
+
+.tabTitles > * {
+  flex: 1;
+}
+
+.tabContent {
+  flex: 1;
+}
