@@ -1,0 +1,38 @@
+.autocompleteContainer {
+  display: flex;
+  flex-direction: column;
+  border: 3px solid peru;
+  align-items: center;
+  padding: 5px;
+  max-height: 100%;
+}
+
+.autocompleteContainer > * {
+  width: 60%;
+}
+
+input {
+  width: 100%;
+  outline: none;
+  border: none;
+  border-radius: 3px;
+  padding: 10px;
+  margin-bottom: 5px;
+}
+
+ul {
+  border-radius: 3px;
+  list-style-type: none;
+  text-align: left;
+  max-height: 25vh;
+  overflow-y: auto;
+}
+
+li {
+  padding: 5px;
+  border-radius: 3px;
+}
+
+li:hover {
+  background-color: lightseagreen;
+}
