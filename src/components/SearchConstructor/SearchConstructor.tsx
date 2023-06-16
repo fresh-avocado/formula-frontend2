@@ -13,7 +13,7 @@ const SearchConstructor = (): JSX.Element => {
     <div className="searchConstructorContainer">
       <Autocomplete
         onSelect={(selection) => {
-          constructorSelected(selection as Constructor);
+          constructorSelected(selection);
         }}
       />
     </div>

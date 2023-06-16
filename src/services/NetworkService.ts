@@ -1,4 +1,3 @@
-import useSWR from "swr";
 import type { Constructor } from "../utils/types/Constructor";
 import { getConstructorsUrl } from "../utils/constants/urls";
 
@@ -11,19 +10,8 @@ const fetcher = async <T>(url: string): Promise<T> => {
     });
 };
 
-export const useConstructors = (): {
-  constructors: Constructor[];
-  isLoading: boolean;
-  error: unknown;
-} => {
-  const { data, error, isLoading } = useSWR<Constructor[]>(
-    getConstructorsUrl,
-    fetcher
-  );
-
-  return {
-    constructors: data ?? [],
-    isLoading,
-    error,
-  };
+export const getConstructorsByQuery = async (
+  q: string
+): Promise<Constructor[]> => {
+  return await fetcher<Constructor[]>(`${getConstructorsUrl}?q=${q}`);
 };

@@ -1,15 +1,45 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Autocomplete.css";
 import useAutocomplete from "@mui/base/useAutocomplete";
 import type { Constructor } from "../../utils/types/Constructor";
-import { useConstructors } from "../../services/NetworkService";
+import {
+  BehaviorSubject,
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+} from "rxjs";
+import { getConstructorsByQuery } from "../../services/NetworkService";
 
 type AutocompleteProps = {
-  onSelect: (selection: unknown) => void;
+  onSelect: (selection: Constructor) => void;
 };
 
+const searchSubject: BehaviorSubject<string> = new BehaviorSubject<string>("");
+
+const textQueryStream = searchSubject.pipe(
+  filter((val: string) => val.length > 1),
+  debounceTime(1000),
+  distinctUntilChanged()
+);
+
 const Autocomplete = (props: AutocompleteProps): JSX.Element => {
-  const { constructors, isLoading } = useConstructors();
+  const [constructors, setConstructors] = useState<Constructor[]>([]);
+
+  useEffect(() => {
+    const suscription = textQueryStream.subscribe((q) => {
+      getConstructorsByQuery(q)
+        .then((res) => {
+          setConstructors(res);
+        })
+        .catch(() => {
+          setConstructors([{ constructorId: -1, name: "Error" }]);
+        });
+    });
+    return () => {
+      suscription.unsubscribe();
+    };
+  }, []);
+
   const {
     getRootProps,
     getInputProps,
@@ -17,22 +47,24 @@ const Autocomplete = (props: AutocompleteProps): JSX.Element => {
     getOptionProps,
     groupedOptions,
   } = useAutocomplete<Constructor>({
-    options: isLoading
-      ? [{ constructorId: -1, name: "Loading..." }]
-      : constructors,
+    options: constructors,
     getOptionLabel: (option) => option.name,
-    // TODO: descomentar cuando el back implemente los filtros
-    // filterOptions: (options, _) => options,
+    filterOptions: (options, _) => options,
+    onInputChange: (_, value) => {
+      searchSubject.next(value);
+    },
     onChange: (_, value) => {
       if (value !== null) {
         props.onSelect(value);
       }
     },
+    isOptionEqualToValue(option, value) {
+      return option.name === value.name;
+    },
   });
 
   return (
     <>
-      <h1>Autocomplete</h1>
       <div className="autocompleteContainer">
         <div {...getRootProps()}>
           <input placeholder="Buscar constructor..." {...getInputProps()} />
