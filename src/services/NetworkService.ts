@@ -1,6 +1,7 @@
 import type { Constructor } from "../utils/types/Constructor";
 import {
   getConstructorsUrl,
+  getFavConstructorsUrl,
   updateFavConstructorUrl,
 } from "../utils/constants/urls";
 
@@ -9,7 +10,7 @@ const getFetcher = async <T>(url: string): Promise<T> => {
     .then(async (r) => await r.json())
     .catch((e) => {
       // eslint-disable-next-line no-console
-      console.log(`error when fetching ${url}: `, e);
+      console.log(`error when fetching GET to ${url}: `, e);
     });
 };
 
@@ -22,7 +23,7 @@ const postFetcher = async <T>(url: string, body: unknown): Promise<T> => {
     .then(async (r) => await r.json())
     .catch((e) => {
       // eslint-disable-next-line no-console
-      console.log(`error when fetching ${url}: `, e);
+      console.log(`error when fetching POST to ${url}: `, e);
     });
 };
 
@@ -38,4 +39,8 @@ export const updateFav = async (body: {
 }): Promise<void> => {
   // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
   await postFetcher<void>(updateFavConstructorUrl, body);
+};
+
+export const getFavConstructors = async (): Promise<Constructor[]> => {
+  return await getFetcher(getFavConstructorsUrl);
 };

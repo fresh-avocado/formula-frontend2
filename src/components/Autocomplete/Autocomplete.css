@@ -8,7 +8,13 @@
 }
 
 .autocompleteContainer > * {
-  width: 60%;
+  width: 80%;
+}
+
+@media only screen and (min-width: 600px) {
+  .autocompleteContainer > * {
+    width: 60%;
+  }
 }
 
 input {
@@ -29,11 +35,11 @@ ul {
 }
 
 li {
-  padding: 5px;
   border-radius: 3px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 5px 15px;
 }
 
 li:hover {
