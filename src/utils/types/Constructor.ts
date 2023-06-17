@@ -4,4 +4,5 @@ export type Constructor = {
   // constructorRef: string;
   // nationality: string;
   // url: string;
+  isFavorite?: boolean;
 };

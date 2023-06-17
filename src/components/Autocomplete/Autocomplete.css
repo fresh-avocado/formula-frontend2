@@ -31,8 +31,15 @@ ul {
 li {
   padding: 5px;
   border-radius: 3px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 li:hover {
   background-color: lightseagreen;
+}
+
+.favIcon {
+  cursor: pointer;
 }

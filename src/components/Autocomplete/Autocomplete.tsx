@@ -8,7 +8,11 @@ import {
   distinctUntilChanged,
   filter,
 } from "rxjs";
-import { getConstructorsByQuery } from "../../services/NetworkService";
+import {
+  getConstructorsByQuery,
+  updateFav,
+} from "../../services/NetworkService";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 
 type AutocompleteProps = {
   onSelect: (selection: Constructor) => void;
@@ -39,6 +43,26 @@ const Autocomplete = (props: AutocompleteProps): JSX.Element => {
       suscription.unsubscribe();
     };
   }, []);
+
+  const updateFavConstructor = async (body: {
+    constructorId: number;
+    fav: boolean;
+  }): Promise<void> => {
+    try {
+      await updateFav(body);
+      setConstructors(
+        constructors.map((constructor) => {
+          if (constructor.constructorId === body.constructorId) {
+            constructor.isFavorite = body.fav;
+          }
+          return constructor;
+        })
+      );
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error("could not update constructor");
+    }
+  };
 
   const {
     getRootProps,
@@ -71,12 +95,38 @@ const Autocomplete = (props: AutocompleteProps): JSX.Element => {
         </div>
         {groupedOptions.length > 0 && (
           <ul {...getListboxProps()}>
-            {groupedOptions.map((option, index) => (
+            {(groupedOptions as Constructor[]).map((option, index) => (
               <li
-                key={(option as Constructor).constructorId}
-                {...getOptionProps({ option: option as Constructor, index })}
+                key={option.constructorId}
+                {...getOptionProps({ option, index })}
               >
-                {(option as Constructor).name}
+                {option.name}
+                {option.isFavorite === true && (
+                  <AiFillHeart
+                    className="favIcon"
+                    // eslint-disable-next-line @typescript-eslint/no-misused-promises
+                    onClick={async (e) => {
+                      e.stopPropagation();
+                      await updateFavConstructor({
+                        constructorId: option.constructorId,
+                        fav: false,
+                      });
+                    }}
+                  />
+                )}
+                {(option.isFavorite === undefined || !option.isFavorite) && (
+                  <AiOutlineHeart
+                    className="favIcon"
+                    // eslint-disable-next-line @typescript-eslint/no-misused-promises
+                    onClick={async (e) => {
+                      e.stopPropagation();
+                      await updateFavConstructor({
+                        constructorId: option.constructorId,
+                        fav: true,
+                      });
+                    }}
+                  />
+                )}
               </li>
             ))}
           </ul>
