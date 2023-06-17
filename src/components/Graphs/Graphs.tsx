@@ -1,10 +1,19 @@
 import React from "react";
 import "./Graphs.css";
+import type { Constructor } from "../../utils/types/Constructor";
 
-const Graphs = (): JSX.Element => {
+type GraphsProps = {
+  selectedConstructor: Constructor | null;
+};
+
+const Graphs = (props: GraphsProps): JSX.Element => {
   return (
     <div className="graphsContainer">
-      <h1>Graphs</h1>
+      <h1>
+        {props.selectedConstructor != null
+          ? `Graphs for ${props.selectedConstructor.name}`
+          : "Please select a constructor"}
+      </h1>
     </div>
   );
 };

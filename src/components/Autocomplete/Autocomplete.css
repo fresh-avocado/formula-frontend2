@@ -4,7 +4,8 @@
   border: 3px solid peru;
   align-items: center;
   padding: 5px;
-  max-height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 .autocompleteContainer > * {
@@ -40,12 +41,9 @@ li {
   justify-content: space-between;
   align-items: center;
   padding: 5px 15px;
+  cursor: pointer;
 }
 
 li:hover {
   background-color: lightseagreen;
-}
-
-.favIcon {
-  cursor: pointer;
 }

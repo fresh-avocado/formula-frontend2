@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./Sidebar.css";
-import SearchConstructor from "../SearchConstructor/SearchConstructor";
 import FavoriteConstructors from "../FavoriteConstructors/FavoriteConstructors";
+import Autocomplete from "../Autocomplete/Autocomplete";
+import { type Constructor } from "../../utils/types/Constructor";
 
-const Sidebar = (): JSX.Element => {
+type SidebarProps = {
+  onConstructorSelect: (selection: Constructor) => void;
+};
+
+const Sidebar = (props: SidebarProps): JSX.Element => {
   const [isConstructorSelected, setIsConstructorSelected] = useState(true);
-
-  useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log("Sidebar rerendered");
-  });
 
   return (
     <div className="sidebarContainer">
@@ -32,8 +32,12 @@ const Sidebar = (): JSX.Element => {
         </h2>
       </div>
       <div className="tabContent">
-        {isConstructorSelected && <SearchConstructor />}
-        {!isConstructorSelected && <FavoriteConstructors />}
+        {isConstructorSelected && (
+          <Autocomplete onSelect={props.onConstructorSelect} />
+        )}
+        {!isConstructorSelected && (
+          <FavoriteConstructors onSelect={props.onConstructorSelect} />
+        )}
       </div>
     </div>
   );

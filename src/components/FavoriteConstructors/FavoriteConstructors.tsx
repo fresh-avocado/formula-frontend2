@@ -4,7 +4,13 @@ import type { Constructor } from "../../utils/types/Constructor";
 import { getFavConstructors, updateFav } from "../../services/NetworkService";
 import { AiFillHeart } from "react-icons/ai";
 
-const FavoriteConstructors = (): JSX.Element => {
+type FavoriteConstructorsProps = {
+  onSelect: (selection: Constructor) => void;
+};
+
+const FavoriteConstructors = (
+  props: FavoriteConstructorsProps
+): JSX.Element => {
   const [favs, setFavs] = useState<Constructor[]>([]);
 
   useEffect(() => {
@@ -40,7 +46,13 @@ const FavoriteConstructors = (): JSX.Element => {
     <div className="favListContainer">
       {favs.map((constructor) => {
         return (
-          <div className="favContainer" key={constructor.constructorId}>
+          <div
+            className="favContainer"
+            key={constructor.constructorId}
+            onClick={() => {
+              props.onSelect(constructor);
+            }}
+          >
             {constructor.name}
             <AiFillHeart
               className="favIcon"
