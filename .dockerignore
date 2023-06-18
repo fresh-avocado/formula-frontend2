@@ -1,0 +1,11 @@
+.git
+.husky
+.vscode
+node_modules
+.dockerignore
+.eslintignore
+.eslintrc.json
+.gitignore
+commitlint.config.js
+README.md
+Dockerfile.dev
