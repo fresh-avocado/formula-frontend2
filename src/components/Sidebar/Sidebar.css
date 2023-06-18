@@ -6,6 +6,12 @@
   border: 2px solid green;
 }
 
+@media only screen and (min-width: 600px) {
+  .sidebarContainer {
+    flex: 0.8;
+  }
+}
+
 @media only screen and (min-width: 1000px) {
   .sidebarContainer {
     flex: 0.5;

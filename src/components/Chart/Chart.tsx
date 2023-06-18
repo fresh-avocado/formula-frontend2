@@ -63,8 +63,6 @@ const Chart = (props: ChartProps): JSX.Element => {
         data: props.frequencies,
         backgroundColor: 'black',
         barThickness: 25,
-        borderColor: 'red',
-        borderWidth: 1,
       }
     ],
   };

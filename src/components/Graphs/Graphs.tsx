@@ -44,7 +44,7 @@ const Graphs = (props: GraphsProps): JSX.Element => {
             <Chart frequencies={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]} />
           </div>
           <div className="table">
-            <Table />
+            <Table frequencies={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]} />
           </div>
         </div>    
       </>}
