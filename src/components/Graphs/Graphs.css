@@ -4,7 +4,60 @@
   border: 2px solid var(--primary-color);
   flex: 1.5;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   border: 2px solid white;
+}
+
+.graphsHeader {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 15px 10px;
+}
+
+.graphsHeader > * {
+  width: 45%;
+}
+
+@media only screen and (min-width: 600px) {
+  .graphsHeader > * {
+    width: 35%;
+  }
+}
+
+@media only screen and (min-width: 1000px) {
+  .graphsHeader > * {
+    width: 20%;
+  }
+}
+
+#years {
+  outline: none;
+  border: none;
+  padding: 5px;
+  border-radius: 3px;
+  border: 1px solid var(--primary-color);
+}
+
+.bordered {
+  border: 1px solid var(--primary-color);
+  cursor: default !important;
+}
+
+.graphs {
+  flex-grow: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.chart {
+  flex: 1;
+}
+
+.table {
+  flex: 1;
 }

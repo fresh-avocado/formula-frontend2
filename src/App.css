@@ -2,7 +2,6 @@
   text-align: center;
   height: 100%;
   width: 100%;
-  border: 15px solid black;
   display: flex;
   flex-direction: column;
 }
