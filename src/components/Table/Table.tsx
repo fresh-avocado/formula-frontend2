@@ -544,14 +544,14 @@ const Table = (props: ChartProps): JSX.Element => {
       <div className="tableData">
         {fakeData.map((data, i) => {
           return (
-            <>
+            <div className="tableRow" key={i}>
               <p>{i}</p>
               <p>{data.raceName}</p>
               <p>{data.driverName}</p>
               <p>{data.driverNumber}</p>
               <p>{data.racePosition}</p>
               <p>{data.raceDate}</p>
-            </>
+            </div>
           );
         })}
       </div>
