@@ -3,7 +3,6 @@
   height: fit-content;
   display: flex;
   flex-direction: column;
-  border: 2px solid green;
 }
 
 @media only screen and (min-width: 600px) {

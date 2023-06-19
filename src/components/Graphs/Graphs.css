@@ -1,13 +1,11 @@
 .graphsContainer {
   width: 100%;
   height: 100%;
-  border: 2px solid var(--primary-color);
   flex: 1.5;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border: 2px solid white;
   padding: 10px 0;
 }
 
@@ -54,6 +52,11 @@
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  overflow-y: auto;
+}
+
+.graphs::-webkit-scrollbar {
+  display: none;
 }
 
 .chart {
