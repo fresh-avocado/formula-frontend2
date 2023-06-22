@@ -8,7 +8,8 @@ import {
   Tooltip,
   Legend,
   type ChartData,
-  type ChartOptions
+  type ChartOptions,
+  Title
 } from 'chart.js';
 
 import { Bar } from 'react-chartjs-2';
@@ -18,40 +19,14 @@ ChartJS.register(
   CategoryScale,
   LinearScale,
   Tooltip,
-  Legend
+  Legend,
+  Title
 );
 
 type ChartProps = {
   frequencies: number[];
-};
-
-const options: ChartOptions<"bar"> = {
-    responsive: true,
-    backgroundColor: 'white',
-    scales: {
-      y: {
-        beginAtZero: true,
-        title: {
-          display: true,
-          text: 'Frecuencia',
-          color: '--primary-color',
-          font: {
-            size: 16,
-          },
-        },
-      },
-      x: {
-        beginAtZero: true,
-        title: {
-          display: true,
-          text: 'Puesto',
-          color: '--primary-color',
-          font: {
-            size: 16,
-          },
-        },
-      },
-    }
+  constructorName: string;
+  year: number;
 };
 
 const Chart = (props: ChartProps): JSX.Element => {
@@ -65,6 +40,44 @@ const Chart = (props: ChartProps): JSX.Element => {
         barThickness: 25,
       }
     ],
+  };
+
+  const options: ChartOptions<"bar"> = {
+    responsive: true,
+    backgroundColor: 'white',
+    scales: {
+      y: {
+        beginAtZero: true,
+        title: {
+          display: true,
+          text: 'Frecuencia',
+          color: '--primary-color',
+          font: {
+            size: 18,
+          },
+        },
+      },
+      x: {
+        beginAtZero: true,
+        title: {
+          display: true,
+          text: 'Puesto',
+          color: '--primary-color',
+          font: {
+            size: 18,
+          },
+        },
+      },
+    },
+    plugins: {
+      title: {
+        display: true,
+        text: `${props.constructorName} en el ${props.year}`,
+        font: {
+          size: 20,
+        },
+      },
+    },
   };
 
   return (

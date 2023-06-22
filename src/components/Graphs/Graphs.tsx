@@ -11,43 +11,37 @@ type GraphsProps = {
   selectedConstructor: Constructor | null;
 };
 
+const defaultFrequencies = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
 const Graphs = (props: GraphsProps): JSX.Element => {
   const [year, setYear] = useState(2010);
   const [isLoading, setIsLoading]= useState(false);
   const [results, setResults] = useState<Result[]>([]);
-  const [frequencies, setFrequencies] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+  const [frequencies, setFrequencies] = useState(defaultFrequencies);
 
   useEffect(() => {
     if (props.selectedConstructor !== null) {
       setIsLoading(true);
       getConstructorResults({
         constructorId: props.selectedConstructor.constructorId,
-        year: year,
+        year,
       }).then((resultsData) => {
-        // eslint-disable-next-line no-console
-        console.group('Results');
-        // eslint-disable-next-line no-console
-        console.log(resultsData);
-        // eslint-disable-next-line no-console
-        console.groupEnd();
         frequencies.fill(0);
-        for (const res of resultsData) {
+        resultsData.forEach((res) => {
           if (res.position !== null && res.position <= 10) {
             frequencies[res.position - 1] += 1;
           }
-        }
-        // eslint-disable-next-line no-console
-        console.log('frequencies: ', frequencies);
+        });
         setFrequencies([...frequencies]);
         setResults(resultsData);
-      }).catch((err) => {
-        // eslint-disable-next-line no-console
-        console.error('GET constructor results: ', err);
+      }).catch(() => {
+        setFrequencies(defaultFrequencies);
+        setResults([]);
       }).finally(() => {
         setIsLoading(false);
       });
     }
-  }, [year]);
+  }, [year, props.selectedConstructor]);
 
   return (
     <div className="graphsContainer">
@@ -80,7 +74,7 @@ const Graphs = (props: GraphsProps): JSX.Element => {
           {!isLoading &&
           <>
             <div className="chart">
-              <Chart frequencies={frequencies} />
+              <Chart frequencies={frequencies} constructorName={props.selectedConstructor.name} year={year} />
             </div>
             <div className="table">
               <Table results={results} />
