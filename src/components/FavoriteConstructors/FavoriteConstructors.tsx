@@ -23,8 +23,6 @@ const FavoriteConstructors = (
       });
   }, []);
 
-  // TODO: make constructor name and fav icon as one standalone component
-
   const updateFavConstructor = async (body: {
     constructorId: number;
     fav: boolean;
