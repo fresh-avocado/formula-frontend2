@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Graphs.css";
 import type { Constructor } from "../../utils/types/Constructor";
 import Chart from "../Chart/Chart";
 import Table from "../Table/Table";
 import { AiFillHeart } from "react-icons/ai";
+import { getConstructorResults } from "../../services/NetworkService";
+import type { Result } from "../../utils/types/Result";
 
 type GraphsProps = {
   selectedConstructor: Constructor | null;
@@ -11,6 +13,41 @@ type GraphsProps = {
 
 const Graphs = (props: GraphsProps): JSX.Element => {
   const [year, setYear] = useState(2010);
+  const [isLoading, setIsLoading]= useState(false);
+  const [results, setResults] = useState<Result[]>([]);
+  const [frequencies, setFrequencies] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+
+  useEffect(() => {
+    if (props.selectedConstructor !== null) {
+      setIsLoading(true);
+      getConstructorResults({
+        constructorId: props.selectedConstructor.constructorId,
+        year: year,
+      }).then((resultsData) => {
+        // eslint-disable-next-line no-console
+        console.group('Results');
+        // eslint-disable-next-line no-console
+        console.log(resultsData);
+        // eslint-disable-next-line no-console
+        console.groupEnd();
+        frequencies.fill(0);
+        for (const res of resultsData) {
+          if (res.position !== null && res.position <= 10) {
+            frequencies[res.position - 1] += 1;
+          }
+        }
+        // eslint-disable-next-line no-console
+        console.log('frequencies: ', frequencies);
+        setFrequencies([...frequencies]);
+        setResults(resultsData);
+      }).catch((err) => {
+        // eslint-disable-next-line no-console
+        console.error('GET constructor results: ', err);
+      }).finally(() => {
+        setIsLoading(false);
+      });
+    }
+  }, [year]);
 
   return (
     <div className="graphsContainer">
@@ -20,8 +57,7 @@ const Graphs = (props: GraphsProps): JSX.Element => {
         <div className="graphsHeader">
           <div className="favContainer bordered">
             {props.selectedConstructor.name}
-              <AiFillHeart
-              />
+              <AiFillHeart />
           </div>
           <select id="years" value={year} onChange={(e) => {
             setYear(+e.target.value);
@@ -40,12 +76,16 @@ const Graphs = (props: GraphsProps): JSX.Element => {
           </select>
         </div>
         <div className="graphs">
-          <div className="chart">
-            <Chart frequencies={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]} />
-          </div>
-          <div className="table">
-            <Table frequencies={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]} />
-          </div>
+          {isLoading && <h1>Loading...</h1>}
+          {!isLoading &&
+          <>
+            <div className="chart">
+              <Chart frequencies={frequencies} />
+            </div>
+            <div className="table">
+              <Table results={results} />
+            </div>
+          </>}
         </div>    
       </>}
     </div>

@@ -2,8 +2,10 @@ import type { Constructor } from "../utils/types/Constructor";
 import {
   getConstructorsUrl,
   getFavConstructorsUrl,
+  getResultsUrl,
   updateFavConstructorUrl,
 } from "../utils/constants/urls";
+import type { Result } from "../utils/types/Result";
 
 const getFetcher = async <T>(url: string): Promise<T> => {
   return await fetch(url)
@@ -44,3 +46,7 @@ export const updateFav = async (body: {
 export const getFavConstructors = async (): Promise<Constructor[]> => {
   return await getFetcher(getFavConstructorsUrl);
 };
+
+export const getConstructorResults = async (body: { constructorId: number, year: number }): Promise<Result[]> => {
+  return await postFetcher(getResultsUrl, body);
+}

@@ -60,7 +60,7 @@ const Chart = (props: ChartProps): JSX.Element => {
     datasets: [
       {
         label: 'Frecuencia',
-        data: props.frequencies,
+        data: props.frequencies.slice(0, 10),
         backgroundColor: 'black',
         barThickness: 25,
       }
